@@ -1,0 +1,38 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build:
+    name: Build and Test
+    strategy:
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  self-test:
+    name: Self Test
+    strategy:
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: self test
+      uses: ./
+      with:
+        token: ${{ github.token }}
+        fail-if-no-assets: false
+        tag: test_tag
+        assets: |
+          foo.*
+          assets.txt

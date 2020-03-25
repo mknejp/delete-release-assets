@@ -1,0 +1,45 @@
+name: Delete Release Assets
+description: GitHub action for deleting assets from a GitHub release.
+author: Miro Knejp @mknejp
+inputs:
+  tag:
+    description: >
+      The name of the tag. This uniquely identifies the release.
+      May either be a tag name directly (like `v1.0.0`) or a tag ref
+      (like `refs/tags/v1.0.0` as is provided by `github.ref` or `GITHUB_REF`).
+    required: true
+
+  fail-if-no-release:
+    description: >
+      Fail the action if no release associated with the given tag was found (default `true`).
+    required: false
+    default: true
+
+  fail-if-no-assets:
+    description: >
+      Fail the action if the release contains no matching assets (default `true`).
+    required: false
+    default: true
+
+  assets:
+    description: >
+      Newline-delimited globs of asset names to delete from the release.
+    required: true
+
+  token:
+    description: >
+      The token for authenticating against the GitHub API.
+    required: true
+
+outputs:
+  deleted-assets:
+    description: >
+      Semicolon-delimited list of deleted asset names (for example `file1.txt;file2.zip`).
+
+  release_id:
+    description: >
+      The unique ID of the github release from which the assets were deleted.
+
+runs:
+  using: node12
+  main: dist/index.js
