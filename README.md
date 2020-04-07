@@ -49,7 +49,7 @@ jobs:
         uses: mknejp/delete-release-assets@v1
         with:
           token: ${{ github.token }}
-          tag_name: staging # This may also be of the form 'refs/tags/staging'
+          tag: staging # This may also be of the form 'refs/tags/staging'
 
           # Pick one of:
           # 1. a single file name
