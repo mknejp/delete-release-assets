@@ -2,6 +2,9 @@
 
 This GitHub action lets you delete assets from existing GitHub releases. This is useful for scenarios where the artifacts of nightly builds are made available in a GitHub release and cannot be just overwritten because the asset names contain changing information like the build date or commit ID.
 
+#### ⚠ WARNING ⚠
+**Because this action has the power to delete any asset from any release in the repository (via the access token) be _extra careful_ that you specify the correct `tag`!**
+
 ## Usage
 
 Typical usage would be adding this action as a step before uploading new assets to a release (for example using the [`@actions/upload-release-asset`](https://www.github.com/actions/upload-release-asset) GitHub action).
