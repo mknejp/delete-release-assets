@@ -5,8 +5,10 @@ async function run() {
   try {
     await delete_assets();
   }
-  catch (error) {
-    core.setFailed(error.message);
+  catch (error: unknown) {
+    if (error instanceof Error) {
+      core.setFailed(error.message);
+    }
   }
 }
 
