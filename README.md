@@ -11,7 +11,7 @@ Typical usage would be adding this action as a step before uploading new assets 
 
 ### Inputs
 
-| name                 | required | default | description                                                            
+| name                 | required | default | description
 |----------------------|:--------:|---------|-------------
 | `assets`             | **yes**  |         | Newline-delimited globs of asset names to delete from the release. See the example below for supported formats.
 | `fail-if-no-assets`  | no       | `true`  | Fail the action if the release contains no matching assets.
@@ -21,7 +21,7 @@ Typical usage would be adding this action as a step before uploading new assets 
 
 ### Outputs
 
-| name             | example               | description 
+| name             | example               | description
 |------------------|-----------------------|-------------
 | `deleted-assets` | `file1.txt;file2.zip` | Semicolon-delimited list of deleted asset names.
 | `release-id`     | `1234`                | The unique ID of the github release from which the assets were deleted.
@@ -44,15 +44,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Build project
         run: ./build
-        
+
       - name: Delete old release assets
         uses: mknejp/delete-release-assets@v1
         with:
           token: ${{ github.token }}
           tag: staging # This may also be of the form 'refs/tags/staging'
+
+          # Optional another repository
+          repository: owner/repo
 
           # Pick one of:
           # 1. a single file name
@@ -60,10 +63,10 @@ jobs:
           # 2. a glob pattern (note the quotes if it begins with *)
           assets: '*.zip'
           # 3. multiple names/globs, one per line
-          assets: | 
+          assets: |
             changelog.txt
             *.zip
-            
+
       - name: Upload new release assets
         uses: actions/upload-release-assets@v1
         ...
