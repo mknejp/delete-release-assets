@@ -34,6 +34,8 @@ function mock_input(tag: string, assets: string) {
         return "true";
       case "assets":
         return assets;
+      case "repository":
+        return '';
       default:
         throw new Error(`Unrecognized input name '${input_name}'`);
     }

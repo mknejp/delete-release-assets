@@ -6,8 +6,23 @@ function toBoolean(input: string) {
   return (input || "true").toUpperCase() === "TRUE";
 }
 
+function getRepo() {
+  const repository = core.getInput("repository");
+
+  if (repository) {
+    const repositoryParts = repository.split('/');
+
+    return {
+      owner: repositoryParts[0],
+      repo: repositoryParts[1]
+    };
+  }
+
+  return github.context.repo;
+}
+
 export async function delete_assets() {
-  const repo = github.context.repo;
+  const repo = getRepo();
   const token = core.getInput("token");
   const client = new github.GitHub(token);
 
@@ -60,7 +75,7 @@ export async function delete_assets() {
       return;
     }
   }
-  
+
   console.log("delete matching assets:");
   for (const asset of assets_to_delete) {
     console.log(`  ${asset.id} '${asset.name}'`);

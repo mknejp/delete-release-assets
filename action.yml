@@ -31,6 +31,12 @@ inputs:
       The token for authenticating against the GitHub API.
     required: true
 
+  repository:
+    description: >
+      Repository to delete assets in format `owner/repo` (default current repository).
+    required: false
+    default: ''
+
 outputs:
   deleted-assets:
     description: >
