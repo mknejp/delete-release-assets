@@ -47,5 +47,5 @@ outputs:
       The unique ID of the github release from which the assets were deleted.
 
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
