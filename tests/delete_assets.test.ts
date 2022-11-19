@@ -13,7 +13,7 @@ jest.mock("@actions/github", () => ({
       repo: "repo",
     }
   },
-  GitHub: jest.fn(),
+  getOctokit: jest.fn(),
 }));
 
 const getInput = Core.getInput as jest.Mock;
@@ -76,13 +76,15 @@ function setup(input: Input, assets: Asset[]) {
   deleteReleaseAsset = jest.fn().mockReturnValueOnce({});
 
   const github = {
-    repos: {
-      listReleases,
-      deleteReleaseAsset,
+    rest: {
+      repos: {
+        listReleases,
+        deleteReleaseAsset,
+      }
     }
   };
 
-  (GitHub.GitHub as any as jest.Mock).mockImplementation(() => github);
+  (GitHub.getOctokit as any as jest.Mock).mockImplementation(() => github);
   getInput.mockImplementation(mock_input(input.tag_name, input.assets));
   setOutput.mockClear();
 }

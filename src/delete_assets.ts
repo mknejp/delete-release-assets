@@ -24,7 +24,7 @@ function getRepo() {
 export async function delete_assets() {
   const repo = getRepo();
   const token = core.getInput("token");
-  const client = new github.GitHub(token);
+  const client = github.getOctokit(token);
 
   const fail_if_no_release = toBoolean(core.getInput("fail-if-no-release"));
   const fail_if_no_assets = toBoolean(core.getInput("fail-if-no-assets"));
@@ -43,7 +43,7 @@ export async function delete_assets() {
 
   console.log(`Looking for release with tag '${tag}'...`);
   // getReleaseByTagName does not search for drafts
-  const releases = await client.repos.listReleases(repo);
+  const releases = await client.rest.repos.listReleases(repo);
 
   const release = releases.data.find(r => r.tag_name == tag);
   if (release === undefined) {
@@ -79,7 +79,7 @@ export async function delete_assets() {
   console.log("delete matching assets:");
   for (const asset of assets_to_delete) {
     console.log(`  ${asset.id} '${asset.name}'`);
-    await client.repos.deleteReleaseAsset({ ...repo, asset_id: asset.id });
+    await client.rest.repos.deleteReleaseAsset({ ...repo, asset_id: asset.id });
   }
 
   core.setOutput("deleted-assets", assets_to_delete.map(a => a.name).join(";"));
