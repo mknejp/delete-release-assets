@@ -43,9 +43,12 @@ export async function delete_assets() {
 
   console.log(`Looking for release with tag '${tag}'...`);
   // getReleaseByTagName does not search for drafts
-  const releases = await client.rest.repos.listReleases(repo);
+  const releases = await client.paginate("GET /repos/{owner}/{repo}/releases", {
+    owner: repo.owner,
+    repo: repo.repo
+  })
 
-  const release = releases.data.find(r => r.tag_name == tag);
+  const release = releases.find(r => r.tag_name == tag);
   if (release === undefined) {
     const msg = `No release with tag '${tag}' found.`;
     if (fail_if_no_release) {
