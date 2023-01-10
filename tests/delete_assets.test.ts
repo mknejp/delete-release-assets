@@ -52,12 +52,11 @@ interface Asset {
   id: number,
 }
 
-let listReleases: jest.Mock<any, any>;
+let paginate: jest.Mock<any, any>;
 let deleteReleaseAsset: jest.Mock<any, any>;
 
 function setup(input: Input, assets: Asset[]) {
-  listReleases = jest.fn().mockReturnValueOnce({
-    data: [
+  paginate = jest.fn().mockReturnValueOnce([
       {
         name: "my-release",
         tag_name: input.tag_name.replace("refs/tags/", ""),
@@ -71,14 +70,14 @@ function setup(input: Input, assets: Asset[]) {
         assets: [],
       },
     ]
-  });
+  );
 
   deleteReleaseAsset = jest.fn().mockReturnValueOnce({});
 
   const github = {
+    paginate,
     rest: {
       repos: {
-        listReleases,
         deleteReleaseAsset,
       }
     }
