@@ -16,7 +16,7 @@
   "author": "Miro Knejp @mknejp",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.10.0",
+    "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
     "nanomatch": "^1.2.13"
   },
